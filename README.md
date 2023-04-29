@@ -12,7 +12,7 @@ Each prototype option has its own dedicated screen for logging time and effort
 A user-friendly interface with clear instructions for logging time and effort
 Getting Started
 
-To run the application, you will need JavaFX 16 or higher installed on your system. Once JavaFX is installed, you can run the application by running the EffortLogger class.
+To run the application, you will need JavaFX 17 or higher installed on your system. Once JavaFX is installed, you can run the application by running the EffortLogger class.
 
 ## Usage
 
