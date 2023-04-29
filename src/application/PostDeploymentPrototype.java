@@ -13,16 +13,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
-
 public class PostDeploymentPrototype {
 
     private ListView<String> listView;
     private ListView<String> historyListView;
     private TextField textField;
     private VBox root;
-    LocalDateTime currentTime = LocalDateTime.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    String formattedTime = currentTime.format(formatter);
+    private LocalDateTime currentTime = LocalDateTime.now();
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private String formattedTime = currentTime.format(formatter);
 
     public PostDeploymentPrototype() {
         Label activityLabel = new Label("Enter activity:");
@@ -60,7 +59,12 @@ public class PostDeploymentPrototype {
     }
 
     private void addItem() {
-        String item = textField.getText();
+        String item = textField.getText().trim();
+
+        if (item.isEmpty()) {
+            AlertBox.display("Error", "Activity field can't be empty.");
+            return;
+        }
 
         currentTime = LocalDateTime.now();
         formattedTime = currentTime.format(formatter);
@@ -69,10 +73,11 @@ public class PostDeploymentPrototype {
         listView.getItems().add(listItem);
 
         String historyItem = String.format("%s - Added %s ", formattedTime, item);
-        historyListView.getItems().add(historyItem);      
-        
+        historyListView.getItems().add(historyItem);
+
         textField.clear();
     }
+
 
     private void editItem() {
         int selectedIndex = listView.getSelectionModel().getSelectedIndex();
@@ -84,12 +89,16 @@ public class PostDeploymentPrototype {
         vbox.setPadding(new Insets(10));
 
         Stage editStage = new Stage();
-        Scene editScene = new Scene(vbox, 200, 100);
-        editStage.setScene(editScene);
 
         Button okButton = new Button("OK");
         okButton.setOnAction(e -> {
-            String newValue = editTextField.getText();
+            String newValue = editTextField.getText().trim();
+
+            if (newValue.isEmpty()) {
+                AlertBox.display("Error", "The edit field can't be empty.");
+                return;
+            }
+
             listView.getItems().set(selectedIndex, newValue);
 
             currentTime = LocalDateTime.now();
@@ -102,23 +111,27 @@ public class PostDeploymentPrototype {
         });
         vbox.getChildren().add(okButton);
 
+        Scene editScene = new Scene(vbox, 200, 100);
+        editStage.setScene(editScene);
+
         editStage.show();
     }
 
+
+
     private void deleteItem() {
-    	
         int selectedIndex = listView.getSelectionModel().getSelectedIndex();
         String selectedItem = listView.getSelectionModel().getSelectedItem();
 
-        listView.getItems().remove(selectedIndex);
+        if (selectedItem != null) {
+            listView.getItems().remove(selectedIndex);
 
-        currentTime = LocalDateTime.now();
-        formattedTime = currentTime.format(formatter);
-        
-        String historyItem = String.format(" %s - Deleted %s", formattedTime, selectedItem);
-        historyListView.getItems().add(historyItem);
+            currentTime = LocalDateTime.now();
+            formattedTime = currentTime.format(formatter);
+
+            String historyItem = String.format(" %s - Deleted %s", formattedTime, selectedItem);
+            historyListView.getItems().add(historyItem);
+        }
     }
 
 }
-
-        
