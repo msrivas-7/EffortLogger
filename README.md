@@ -27,7 +27,7 @@ Effort Logger was created by a group of 5 students for a class project, and is n
 ## Credits
 
 - [Mehul Srivastava](https://www.linkedin.com/in/msrivas7/)
-- [Hriday Shah]
+- [Hriday Shah](https://www.linkedin.com/in/hriday-shah-967963221/)
 - [Akshit Kishore]
 - [Ka Wai Szeto]
 - [Dylan Wynne]
