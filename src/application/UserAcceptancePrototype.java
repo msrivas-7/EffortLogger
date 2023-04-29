@@ -1,5 +1,8 @@
 package application;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -120,9 +123,12 @@ public class UserAcceptancePrototype {
             // Refresh the ListView
             listView.refresh();
         });
+        
+        Button saveToCSVButton = new Button("Export Member Data");
+        saveToCSVButton.setOnAction(e -> saveToCSV());
 
 
-        HBox buttonBar = new HBox(10, confirmDeleteButton);
+        HBox buttonBar = new HBox(10, saveToCSVButton, confirmDeleteButton);
         buttonBar.setPadding(new Insets(10));
         buttonBar.setAlignment(Pos.CENTER_RIGHT);
 
@@ -152,6 +158,22 @@ public class UserAcceptancePrototype {
             emailField.clear();
             accessLevelBox.getSelectionModel().clearSelection();
         }
+    }
+    
+    public void saveToCSV() {
+        try (FileWriter writer = new FileWriter("OnBoardedMembers.csv")) {
+            writer.write("First Name,Last Name,Email,Access Level\n");
+            for (Member member : listView.getItems()) {
+                writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getEmail() + "," + member.getAccessLevel() + "\n");
+            }
+            writer.flush();
+        } catch (IOException ex) {
+            AlertBox.display("Error", "An error occurred while Exporting the Member Data to CSV.");
+
+            ex.printStackTrace();
+        }
+        
+        AlertBox.display("Success", "OnBoarded Member Data Exported to CSV successfully.");
     }
 
     private class Member {

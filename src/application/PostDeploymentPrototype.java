@@ -1,5 +1,9 @@
 package application;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.geometry.Insets;
@@ -35,8 +39,11 @@ public class PostDeploymentPrototype {
 
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> deleteItem());
+        
+        Button saveToCSVButton = new Button("Export Project Logs");
+        saveToCSVButton.setOnAction(e -> saveToCSV());
 
-        HBox inputBox = new HBox(10, activityLabel, textField, addButton, editButton, deleteButton);
+        HBox inputBox = new HBox(10, activityLabel, textField, addButton, editButton, deleteButton, saveToCSVButton);
         inputBox.setPadding(new Insets(10));
 
         listView = new ListView<>();
@@ -133,5 +140,22 @@ public class PostDeploymentPrototype {
             historyListView.getItems().add(historyItem);
         }
     }
+    
+    private void saveToCSV() {
+        File outputFile = new File("Project_Logs.csv");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+            for (String historyItem : historyListView.getItems()) {
+                writer.write(historyItem);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            AlertBox.display("Error", "An error occurred while saving the Project Logs to CSV.");
+            e.printStackTrace();
+        }
+
+        AlertBox.display("Success", "Project Logs saved to CSV successfully.");
+    }
+
 
 }
