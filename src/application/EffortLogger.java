@@ -19,9 +19,9 @@ import javafx.scene.layout.HBox;
 public class EffortLogger extends Application {
 
     // create buttons for each prototype
-    private Button feature1Button = new Button("Security Prototype");
-    private Button feature2Button = new Button("User Acceptance Prototype");
-    private Button feature3Button = new Button("Post Deployment Prototype");
+    private Button feature1Button = new Button("Login");
+    private Button feature2Button = new Button("OnBoarding");
+    private Button feature3Button = new Button("Project Management Logs");
 
     // add a header text
     private Text header = new Text("Effort Logger");
@@ -34,9 +34,9 @@ public class EffortLogger extends Application {
    	public void start(Stage stage) {
  	    //Create the menu items
    	    MenuItem backToMain = new MenuItem("Homepage");
-   	    MenuItem securityPrototype = new MenuItem("Security Prototype");
-   	    MenuItem userAcceptancePrototype = new MenuItem("User Acceptance Prototype");
-   	    MenuItem postDeploymentPrototype = new MenuItem("Post Deployment Prototype");
+   	    MenuItem securityPrototype = new MenuItem("Login");
+   	    MenuItem userAcceptancePrototype = new MenuItem("OnBoarding");
+   	    MenuItem postDeploymentPrototype = new MenuItem("Project Management Logs");
 
    	    // Set the onAction event handlers for the menu items
    	    backToMain.setOnAction(e -> {
@@ -64,9 +64,9 @@ public class EffortLogger extends Application {
 
    	    // Create buttons for the menu items
    	    Button backToMainButton = new Button("Homepage");
-   	    Button securityPrototypeButton = new Button("Security Prototype");
-   	    Button userAcceptancePrototypeButton = new Button("User Acceptance Prototype");
-   	    Button postDeploymentPrototypeButton = new Button("Post Deployment Prototype");
+   	    Button securityPrototypeButton = new Button("Login");
+   	    Button userAcceptancePrototypeButton = new Button("OnBoarding");
+   	    Button postDeploymentPrototypeButton = new Button("Project Management Logs");
 
    	    // Set the onAction event handlers for the menu buttons
    	    backToMainButton.setOnAction(backToMain.getOnAction());
