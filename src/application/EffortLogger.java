@@ -19,7 +19,7 @@ import javafx.scene.layout.HBox;
 public class EffortLogger extends Application {
 
     // create buttons for each prototype
-    private Button feature1Button = new Button("Login");
+    private Button feature1Button = new Button("Log In");
     private Button feature2Button = new Button("OnBoarding");
     private Button feature3Button = new Button("Project Logs");
 
@@ -34,7 +34,7 @@ public class EffortLogger extends Application {
    	public void start(Stage stage) {
  	    //Create the menu items
    	    MenuItem backToMain = new MenuItem("Homepage");
-   	    MenuItem securityPrototype = new MenuItem("Login");
+   	    MenuItem securityPrototype = new MenuItem("Log In");
    	    MenuItem userAcceptancePrototype = new MenuItem("OnBoarding");
    	    MenuItem postDeploymentPrototype = new MenuItem("Project Logs");
 
@@ -64,7 +64,7 @@ public class EffortLogger extends Application {
 
    	    // Create buttons for the menu items
    	    Button backToMainButton = new Button("Homepage");
-   	    Button securityPrototypeButton = new Button("Login");
+   	    Button securityPrototypeButton = new Button("Log In");
    	    Button userAcceptancePrototypeButton = new Button("OnBoarding");
    	    Button postDeploymentPrototypeButton = new Button("Project Logs");
 
@@ -118,7 +118,7 @@ public class EffortLogger extends Application {
         });
 
         // Set the button styles and hover effect
-        String buttonStyle = "-fx-background-color: #1e90ff; -fx-text-fill: white; -fx-padding: 10 20;";
+        String buttonStyle = "-fx-background-color: #1e90ff; -fx-text-fill: white; -fx-padding: 10 20; -fx-pref-width: 200; -fx-pref-height: 40;";
         String buttonHover = "-fx-background-color: #6495ed;";
 
         feature1Button.setStyle(buttonStyle);
@@ -135,12 +135,12 @@ public class EffortLogger extends Application {
         feature3Button.setOnMouseExited(e -> feature3Button.setStyle(buttonStyle));
 
         // Create the button layout
-        buttonLayout = new VBox(20, header, feature1Button, feature2Button, feature3Button);
+        buttonLayout = new VBox(30, header, feature1Button, feature2Button, feature3Button);
         buttonLayout.setAlignment(Pos.CENTER);
         buttonLayout.setStyle("-fx-background-color: #f0f8ff; -fx-padding: 20;");
 
         // Set the header style
-        header.setFont(Font.font("Arial", FontWeight.BOLD, 32));
+        header.setFont(Font.font("Arial", FontWeight.BOLD, 52));
         header.setStyle("-fx-fill: #1e90ff;");
 
         // Create the main layout and add the components to it
