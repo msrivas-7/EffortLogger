@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
+//import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
@@ -13,6 +13,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
+
 
 public class EffortLogger extends Application {
 
@@ -26,65 +28,93 @@ public class EffortLogger extends Application {
 
     private VBox buttonLayout = new VBox(20, header, feature1Button, feature2Button, feature3Button);
     private BorderPane mainLayout = new BorderPane();
-    private MenuBar menuBar = new MenuBar();
+//    private MenuBar menuBar = new MenuBar();
 
-    @Override
-    public void start(Stage stage) {
-        // Create the menu items
-        MenuItem backToMain = new MenuItem("Back to Main");
-        MenuItem securityPrototype = new MenuItem("Security Prototype");
-        MenuItem userAcceptancePrototype = new MenuItem("User Acceptance Prototype");
-        MenuItem postDeploymentPrototype = new MenuItem("Post Deployment Prototype");
+    	@Override
+   	public void start(Stage stage) {
+ 	    //Create the menu items
+   	    MenuItem backToMain = new MenuItem("Homepage");
+   	    MenuItem securityPrototype = new MenuItem("Security Prototype");
+   	    MenuItem userAcceptancePrototype = new MenuItem("User Acceptance Prototype");
+   	    MenuItem postDeploymentPrototype = new MenuItem("Post Deployment Prototype");
 
-        // Set the onAction event handlers for the menu items
-        backToMain.setOnAction(e -> {
-            mainLayout.setCenter(buttonLayout);
-            menuBar.setVisible(false);
-        });
+   	    // Set the onAction event handlers for the menu items
+   	    backToMain.setOnAction(e -> {
+   	        mainLayout.setCenter(buttonLayout);
+//   	        menuBar.setVisible(false);
+   	    });
 
-        securityPrototype.setOnAction(e -> {
+   	    securityPrototype.setOnAction(e -> {
             SecurityPrototype feature1 = new SecurityPrototype();
             mainLayout.setCenter(feature1.getFeatureContent());
-            menuBar.setVisible(true);
+//            menuBar.setVisible(true);
         });
 
         userAcceptancePrototype.setOnAction(e -> {
             UserAcceptancePrototype feature2 = new UserAcceptancePrototype();
             mainLayout.setCenter(feature2.getFeatureContent());
-            menuBar.setVisible(true);
+//            menuBar.setVisible(true);
         });
 
         postDeploymentPrototype.setOnAction(e -> {
-            PostDeploymentPrototype feature3 = new PostDeploymentPrototype();
+   	        PostDeploymentPrototype feature3 = new PostDeploymentPrototype();
             mainLayout.setCenter(feature3.getFeatureContent());
-            menuBar.setVisible(true);
-        });
+//   	        menuBar.setVisible(true);
+   	    });
 
-        // Add the menu items to the menu
-        Menu menu = new Menu("Menu");
-        menu.getItems().addAll(backToMain, securityPrototype, userAcceptancePrototype, postDeploymentPrototype);
+   	    // Create buttons for the menu items
+   	    Button backToMainButton = new Button("Homepage");
+   	    Button securityPrototypeButton = new Button("Security Prototype");
+   	    Button userAcceptancePrototypeButton = new Button("User Acceptance Prototype");
+   	    Button postDeploymentPrototypeButton = new Button("Post Deployment Prototype");
 
-        // Create the menu bar and add the menu to it
-        menuBar = new MenuBar(menu);
-        menuBar.setVisible(false);
+   	    // Set the onAction event handlers for the menu buttons
+   	    backToMainButton.setOnAction(backToMain.getOnAction());
+   	    securityPrototypeButton.setOnAction(securityPrototype.getOnAction());
+   	    userAcceptancePrototypeButton.setOnAction(userAcceptancePrototype.getOnAction());
+        postDeploymentPrototypeButton.setOnAction(postDeploymentPrototype.getOnAction());
 
+   	    // Customize the menu bar style and buttons
+   	    String menuBarStyle = "-fx-background-color: #1e90ff;";
+        String menuButtonStyle = "-fx-background-color: transparent; -fx-text-fill: white; -fx-padding: 5 10;";
+   	    String menuButtonHover = "-fx-background-color: #6495ed;";
+
+//   	    menuBar.setStyle(menuBarStyle);
+
+   	    backToMainButton.setStyle(menuButtonStyle);
+   	    securityPrototypeButton.setStyle(menuButtonStyle);
+   	    userAcceptancePrototypeButton.setStyle(menuButtonStyle);
+        postDeploymentPrototypeButton.setStyle(menuButtonStyle);
+
+    	backToMainButton.setOnMouseEntered(e -> backToMainButton.setStyle(menuButtonStyle + menuButtonHover));
+    	backToMainButton.setOnMouseExited(e -> backToMainButton.setStyle(menuButtonStyle));
+    	securityPrototypeButton.setOnMouseEntered(e -> securityPrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
+    	securityPrototypeButton.setOnMouseExited(e -> securityPrototypeButton.setStyle(menuButtonStyle));
+    	userAcceptancePrototypeButton.setOnMouseEntered(e -> userAcceptancePrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
+    	userAcceptancePrototypeButton.setOnMouseExited(e -> userAcceptancePrototypeButton.setStyle(menuButtonStyle));
+    	postDeploymentPrototypeButton.setOnMouseEntered(e -> postDeploymentPrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
+    	postDeploymentPrototypeButton.setOnMouseExited(e -> postDeploymentPrototypeButton.setStyle(menuButtonStyle));
+
+    	// Add the buttons to the menu bar
+    	HBox menuButtonBar = new HBox(5, backToMainButton, securityPrototypeButton, userAcceptancePrototypeButton, postDeploymentPrototypeButton);
+        menuButtonBar.setStyle(menuBarStyle);
         // Set the onAction event handler for the feature buttons
         feature1Button.setOnAction(e -> {
             SecurityPrototype feature1 = new SecurityPrototype();
             mainLayout.setCenter(feature1.getFeatureContent());
-            menuBar.setVisible(true);
+            //menuBar.setVisible(true);
         });
 
         feature2Button.setOnAction(e -> {
             UserAcceptancePrototype feature2 = new UserAcceptancePrototype();
             mainLayout.setCenter(feature2.getFeatureContent());
-            menuBar.setVisible(true);
+           // menuBar.setVisible(true);
         });
 
         feature3Button.setOnAction(e -> {
             PostDeploymentPrototype feature3 = new PostDeploymentPrototype();
             mainLayout.setCenter(feature3.getFeatureContent());
-            menuBar.setVisible(true);
+            //menuBar.setVisible(true);
         });
 
         // Set the button styles and hover effect
@@ -114,8 +144,9 @@ public class EffortLogger extends Application {
         header.setStyle("-fx-fill: #1e90ff;");
 
         // Create the main layout and add the components to it
-        mainLayout = new BorderPane();
-        mainLayout.setTop(menuBar);
+        mainLayout.setTop(menuButtonBar);
+//        mainLayout = new BorderPane();
+//        mainLayout.setTop(menuBar);
         mainLayout.setCenter(buttonLayout);
 
         // Create the scene and set it to the stage
