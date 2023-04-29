@@ -55,7 +55,7 @@ public class PostDeploymentPrototype {
 
         historyListView = new ListView<>();
 
-        Label historyLabel = new Label("Document History");
+        Label historyLabel = new Label("Project Logs");
 
         root = new VBox(10, inputBox, listView, historyLabel, historyListView);
         root.setPadding(new Insets(10));
