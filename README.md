@@ -24,7 +24,7 @@ The application also includes a menu bar with options to switch between differen
 
 Effort Logger was created by a group of 5 students for a class project, and is not currently accepting contributions from outside contributors.
 
-## Credits
+## Authors
 
 - [Mehul Srivastava](https://www.linkedin.com/in/msrivas7/)
 - [Hriday Shah](https://www.linkedin.com/in/hriday-shah-967963221/)
