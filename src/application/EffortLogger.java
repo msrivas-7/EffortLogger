@@ -21,7 +21,7 @@ public class EffortLogger extends Application {
     // create buttons for each prototype
     private Button feature1Button = new Button("Login");
     private Button feature2Button = new Button("OnBoarding");
-    private Button feature3Button = new Button("Project Management Logs");
+    private Button feature3Button = new Button("Project Logs");
 
     // add a header text
     private Text header = new Text("Effort Logger");
@@ -36,7 +36,7 @@ public class EffortLogger extends Application {
    	    MenuItem backToMain = new MenuItem("Homepage");
    	    MenuItem securityPrototype = new MenuItem("Login");
    	    MenuItem userAcceptancePrototype = new MenuItem("OnBoarding");
-   	    MenuItem postDeploymentPrototype = new MenuItem("Project Management Logs");
+   	    MenuItem postDeploymentPrototype = new MenuItem("Project Logs");
 
    	    // Set the onAction event handlers for the menu items
    	    backToMain.setOnAction(e -> {
@@ -66,7 +66,7 @@ public class EffortLogger extends Application {
    	    Button backToMainButton = new Button("Homepage");
    	    Button securityPrototypeButton = new Button("Login");
    	    Button userAcceptancePrototypeButton = new Button("OnBoarding");
-   	    Button postDeploymentPrototypeButton = new Button("Project Management Logs");
+   	    Button postDeploymentPrototypeButton = new Button("Project Logs");
 
    	    // Set the onAction event handlers for the menu buttons
    	    backToMainButton.setOnAction(backToMain.getOnAction());
