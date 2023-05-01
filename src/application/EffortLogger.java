@@ -1,11 +1,12 @@
 package application;
 
+import com.example.postdeployment.PostDeploymentPrototype;
+import com.example.postdeployment.SecurityPrototype;
+import com.example.postdeployment.UserAcceptancePrototype;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-//import javafx.scene.control.Menu;
-//import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -14,6 +15,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class EffortLogger extends Application {
@@ -23,28 +28,49 @@ public class EffortLogger extends Application {
     private Button feature2Button = new Button("OnBoarding");
     private Button feature3Button = new Button("Project Logs");
 
+    public String userButtonStyle = "-fx-text-fill: #333333;";
+    public Button usernameButton = new Button("anonymous");
+
+    public final Map<String, String> userAccounts = new HashMap<>();
+    private static com.example.postdeployment.EffortLogger instance;
+
+    public static com.example.postdeployment.EffortLogger getInstance() {
+        return instance;
+    }
+
+    public void setUsernameButtonText(String newText) {
+        usernameButton.setText(newText);
+    }
+
+    public String getUsernameButtonText() {
+        return usernameButton.getText();
+    }
+
     // add a header text
     private Text header = new Text("Effort Logger");
 
     private VBox buttonLayout = new VBox(20, header, feature1Button, feature2Button, feature3Button);
     private BorderPane mainLayout = new BorderPane();
+    private String newText;
 //    private MenuBar menuBar = new MenuBar();
 
-    	@Override
-   	public void start(Stage stage) {
- 	    //Create the menu items
-   	    MenuItem backToMain = new MenuItem("Homepage");
-   	    MenuItem securityPrototype = new MenuItem("Log In");
-   	    MenuItem userAcceptancePrototype = new MenuItem("OnBoarding");
-   	    MenuItem postDeploymentPrototype = new MenuItem("Project Logs");
 
-   	    // Set the onAction event handlers for the menu items
-   	    backToMain.setOnAction(e -> {
-   	        mainLayout.setCenter(buttonLayout);
+    @Override
+    public void start(Stage stage) {
+        instance = this;
+        //Create the menu items
+        MenuItem backToMain = new MenuItem("Homepage");
+        MenuItem securityPrototype = new MenuItem("Log In");
+        MenuItem userAcceptancePrototype = new MenuItem("OnBoarding");
+        MenuItem postDeploymentPrototype = new MenuItem("Project Logs");
+
+        // Set the onAction event handlers for the menu items
+        backToMain.setOnAction(e -> {
+            mainLayout.setCenter(buttonLayout);
 //   	        menuBar.setVisible(false);
-   	    });
+        });
 
-   	    securityPrototype.setOnAction(e -> {
+        securityPrototype.setOnAction(e -> {
             SecurityPrototype feature1 = new SecurityPrototype();
             mainLayout.setCenter(feature1.getFeatureContent());
 //            menuBar.setVisible(true);
@@ -57,46 +83,52 @@ public class EffortLogger extends Application {
         });
 
         postDeploymentPrototype.setOnAction(e -> {
-   	        PostDeploymentPrototype feature3 = new PostDeploymentPrototype();
+            PostDeploymentPrototype feature3 = new PostDeploymentPrototype();
             mainLayout.setCenter(feature3.getFeatureContent());
 //   	        menuBar.setVisible(true);
-   	    });
+        });
 
-   	    // Create buttons for the menu items
-   	    Button backToMainButton = new Button("Homepage");
-   	    Button securityPrototypeButton = new Button("Log In");
-   	    Button userAcceptancePrototypeButton = new Button("OnBoarding");
-   	    Button postDeploymentPrototypeButton = new Button("Project Logs");
+        // Create buttons for the menu items
+        Button backToMainButton = new Button("Homepage");
+        Button securityPrototypeButton = new Button("Log In");
+        Button userAcceptancePrototypeButton = new Button("OnBoarding");
+        Button postDeploymentPrototypeButton = new Button("Project Logs");
+        usernameButton.setDisable(true);
+        usernameButton.setStyle(userButtonStyle);
 
-   	    // Set the onAction event handlers for the menu buttons
-   	    backToMainButton.setOnAction(backToMain.getOnAction());
-   	    securityPrototypeButton.setOnAction(securityPrototype.getOnAction());
-   	    userAcceptancePrototypeButton.setOnAction(userAcceptancePrototype.getOnAction());
+        // Set the onAction event handlers for the menu buttons
+        backToMainButton.setOnAction(backToMain.getOnAction());
+        securityPrototypeButton.setOnAction(securityPrototype.getOnAction());
+        userAcceptancePrototypeButton.setOnAction(userAcceptancePrototype.getOnAction());
         postDeploymentPrototypeButton.setOnAction(postDeploymentPrototype.getOnAction());
 
-   	    // Customize the menu bar style and buttons
-   	    String menuBarStyle = "-fx-background-color: #1e90ff;";
+        // Customize the menu bar style and buttons
+        String menuBarStyle = "-fx-background-color: #1e90ff;";
         String menuButtonStyle = "-fx-background-color: transparent; -fx-text-fill: white; -fx-padding: 5 10;";
-   	    String menuButtonHover = "-fx-background-color: #6495ed;";
+        String menuButtonHover = "-fx-background-color: #6495ed;";
 
 //   	    menuBar.setStyle(menuBarStyle);
 
-   	    backToMainButton.setStyle(menuButtonStyle);
-   	    securityPrototypeButton.setStyle(menuButtonStyle);
-   	    userAcceptancePrototypeButton.setStyle(menuButtonStyle);
+        backToMainButton.setStyle(menuButtonStyle);
+        securityPrototypeButton.setStyle(menuButtonStyle);
+        userAcceptancePrototypeButton.setStyle(menuButtonStyle);
         postDeploymentPrototypeButton.setStyle(menuButtonStyle);
 
-    	backToMainButton.setOnMouseEntered(e -> backToMainButton.setStyle(menuButtonStyle + menuButtonHover));
-    	backToMainButton.setOnMouseExited(e -> backToMainButton.setStyle(menuButtonStyle));
-    	securityPrototypeButton.setOnMouseEntered(e -> securityPrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
-    	securityPrototypeButton.setOnMouseExited(e -> securityPrototypeButton.setStyle(menuButtonStyle));
-    	userAcceptancePrototypeButton.setOnMouseEntered(e -> userAcceptancePrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
-    	userAcceptancePrototypeButton.setOnMouseExited(e -> userAcceptancePrototypeButton.setStyle(menuButtonStyle));
-    	postDeploymentPrototypeButton.setOnMouseEntered(e -> postDeploymentPrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
-    	postDeploymentPrototypeButton.setOnMouseExited(e -> postDeploymentPrototypeButton.setStyle(menuButtonStyle));
+        backToMainButton.setOnMouseEntered(e -> backToMainButton.setStyle(menuButtonStyle + menuButtonHover));
+        backToMainButton.setOnMouseExited(e -> backToMainButton.setStyle(menuButtonStyle));
+        securityPrototypeButton.setOnMouseEntered(e -> securityPrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
+        securityPrototypeButton.setOnMouseExited(e -> securityPrototypeButton.setStyle(menuButtonStyle));
+        userAcceptancePrototypeButton.setOnMouseEntered(e -> userAcceptancePrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
+        userAcceptancePrototypeButton.setOnMouseExited(e -> userAcceptancePrototypeButton.setStyle(menuButtonStyle));
+        postDeploymentPrototypeButton.setOnMouseEntered(e -> postDeploymentPrototypeButton.setStyle(menuButtonStyle + menuButtonHover));
+        postDeploymentPrototypeButton.setOnMouseExited(e -> postDeploymentPrototypeButton.setStyle(menuButtonStyle));
 
-    	// Add the buttons to the menu bar
-    	HBox menuButtonBar = new HBox(5, backToMainButton, securityPrototypeButton, userAcceptancePrototypeButton, postDeploymentPrototypeButton);
+        // Add the buttons to the menu bar
+        HBox leftMenu = new HBox(5, backToMainButton, securityPrototypeButton, userAcceptancePrototypeButton, postDeploymentPrototypeButton);
+        HBox rightMenu = new HBox(usernameButton);
+        HBox.setHgrow(leftMenu, Priority.ALWAYS);
+        HBox.setHgrow(rightMenu, Priority.NEVER);
+        HBox menuButtonBar = new HBox(leftMenu, rightMenu);
         menuButtonBar.setStyle(menuBarStyle);
         // Set the onAction event handler for the feature buttons
         feature1Button.setOnAction(e -> {
@@ -108,7 +140,7 @@ public class EffortLogger extends Application {
         feature2Button.setOnAction(e -> {
             UserAcceptancePrototype feature2 = new UserAcceptancePrototype();
             mainLayout.setCenter(feature2.getFeatureContent());
-           // menuBar.setVisible(true);
+            // menuBar.setVisible(true);
         });
 
         feature3Button.setOnAction(e -> {
@@ -154,11 +186,9 @@ public class EffortLogger extends Application {
         stage.setScene(scene);
         stage.show();
     }
-        
+
+
     public static void main(String[] args) {
         launch(args);
     }
 }
-
-
-

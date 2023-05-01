@@ -23,6 +23,7 @@ public class PostDeploymentPrototype {
     private ListView<String> historyListView;
     private TextField textField;
     private VBox root;
+    private String author;
     private LocalDateTime currentTime = LocalDateTime.now();
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private String formattedTime = currentTime.format(formatter);
@@ -39,7 +40,7 @@ public class PostDeploymentPrototype {
 
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> deleteItem());
-        
+
         Button saveToCSVButton = new Button("Export Project Logs");
         saveToCSVButton.setOnAction(e -> saveToCSV());
 
@@ -66,20 +67,25 @@ public class PostDeploymentPrototype {
     }
 
     private void addItem() {
+        EffortLogger effortLoggerInstance = EffortLogger.getInstance();
+        this.author = effortLoggerInstance.getUsernameButtonText();
         String item = textField.getText().trim();
 
         if (item.isEmpty()) {
             AlertBox.display("Error", "Activity field can't be empty.");
             return;
         }
-
+        if (author == "anonymous") {
+            AlertBox.display("Error", "You must be logged in to log activity!");
+            return;
+        }
         currentTime = LocalDateTime.now();
         formattedTime = currentTime.format(formatter);
 
         String listItem = String.format("%s", item);
         listView.getItems().add(listItem);
 
-        String historyItem = String.format("%s - Added %s ", formattedTime, item);
+        String historyItem = String.format("%s added %s at %s", author, item, formattedTime);
         historyListView.getItems().add(historyItem);
 
         textField.clear();
@@ -87,8 +93,15 @@ public class PostDeploymentPrototype {
 
 
     private void editItem() {
+        EffortLogger effortLoggerInstance = EffortLogger.getInstance();
+        this.author = effortLoggerInstance.getUsernameButtonText();
         int selectedIndex = listView.getSelectionModel().getSelectedIndex();
         String selectedItem = listView.getSelectionModel().getSelectedItem();
+
+        if (author == "anonymous") {
+            AlertBox.display("Error", "You must be logged in to log activity!");
+            return;
+        }
 
         TextField editTextField = new TextField(selectedItem);
 
@@ -111,7 +124,7 @@ public class PostDeploymentPrototype {
             currentTime = LocalDateTime.now();
             formattedTime = currentTime.format(formatter);
 
-            String historyItem = String.format("%s - Edited %s to %s", formattedTime, selectedItem, newValue);
+            String historyItem = String.format("%s edited %s to %s at %s", author, selectedItem, newValue, formattedTime);
             historyListView.getItems().add(historyItem);
 
             editStage.close();
@@ -127,8 +140,15 @@ public class PostDeploymentPrototype {
 
 
     private void deleteItem() {
+        EffortLogger effortLoggerInstance = EffortLogger.getInstance();
+        this.author = effortLoggerInstance.getUsernameButtonText();
         int selectedIndex = listView.getSelectionModel().getSelectedIndex();
         String selectedItem = listView.getSelectionModel().getSelectedItem();
+
+        if (author == "anonymous") {
+            AlertBox.display("Error", "You must be logged in to log activity!");
+            return;
+        }
 
         if (selectedItem != null) {
             listView.getItems().remove(selectedIndex);
@@ -136,11 +156,11 @@ public class PostDeploymentPrototype {
             currentTime = LocalDateTime.now();
             formattedTime = currentTime.format(formatter);
 
-            String historyItem = String.format(" %s - Deleted %s", formattedTime, selectedItem);
+            String historyItem = String.format(" %s deleted %s at %s", author, selectedItem, formattedTime);
             historyListView.getItems().add(historyItem);
         }
     }
-    
+
     private void saveToCSV() {
         File outputFile = new File("Project_Logs.csv");
 
