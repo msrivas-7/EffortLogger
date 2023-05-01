@@ -1,5 +1,6 @@
 package application;
 
+import application.EffortLogger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -83,6 +84,9 @@ public class SecurityPrototype {
                 alert.setContentText("You have successfully logged in!");
                 alert.showAndWait();
                 effortLoggerInstance.setUsernameButtonText(username);
+                effortLoggerInstance.setFeature1Button("Log Out");
+                effortLoggerInstance.setSecurityButtonText("Log Out");
+                effortLoggerInstance.mainLayout.setCenter(effortLoggerInstance.buttonLayout);
             } else {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Login Error");

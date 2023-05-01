@@ -25,11 +25,17 @@ public class EffortLogger extends Application {
 
     // create buttons for each prototype
     private Button feature1Button = new Button("Log In");
-    private Button feature2Button = new Button("OnBoarding");
+    private Button feature2Button = new Button("Manage Team");
     private Button feature3Button = new Button("Project Logs");
+
+
+    public void setFeature1Button(String input) {
+        feature1Button.setText(input);
+    }
 
     public String userButtonStyle = "-fx-text-fill: #333333;";
     public Button usernameButton = new Button("anonymous");
+    public Button securityPrototypeButton = new Button("Log In");
 
     public final Map<String, String> userAccounts = new HashMap<>();
     private static application.EffortLogger instance;
@@ -42,6 +48,10 @@ public class EffortLogger extends Application {
         usernameButton.setText(newText);
     }
 
+    public void setSecurityButtonText(String newText) {
+        securityPrototypeButton.setText(newText);
+    }
+
     public String getUsernameButtonText() {
         return usernameButton.getText();
     }
@@ -49,20 +59,17 @@ public class EffortLogger extends Application {
     // add a header text
     private Text header = new Text("Effort Logger");
 
-    private VBox buttonLayout = new VBox(20, header, feature1Button, feature2Button, feature3Button);
-    private BorderPane mainLayout = new BorderPane();
-    private String newText;
-//    private MenuBar menuBar = new MenuBar();
-
+    public VBox buttonLayout = new VBox(20, header, feature1Button, feature2Button, feature3Button);
+    public BorderPane mainLayout = new BorderPane();
 
     @Override
     public void start(Stage stage) {
         instance = this;
         //Create the menu items
         MenuItem backToMain = new MenuItem("Homepage");
-        MenuItem securityPrototype = new MenuItem("Log In");
-        MenuItem userAcceptancePrototype = new MenuItem("OnBoarding");
+        MenuItem userAcceptancePrototype = new MenuItem("Manage Team");
         MenuItem postDeploymentPrototype = new MenuItem("Project Logs");
+        MenuItem securityPrototype = new MenuItem("Log In");
 
         // Set the onAction event handlers for the menu items
         backToMain.setOnAction(e -> {
@@ -90,15 +97,22 @@ public class EffortLogger extends Application {
 
         // Create buttons for the menu items
         Button backToMainButton = new Button("Homepage");
-        Button securityPrototypeButton = new Button("Log In");
-        Button userAcceptancePrototypeButton = new Button("OnBoarding");
+        Button userAcceptancePrototypeButton = new Button("Manage Team");
         Button postDeploymentPrototypeButton = new Button("Project Logs");
         usernameButton.setDisable(true);
         usernameButton.setStyle(userButtonStyle);
 
         // Set the onAction event handlers for the menu buttons
         backToMainButton.setOnAction(backToMain.getOnAction());
-        securityPrototypeButton.setOnAction(securityPrototype.getOnAction());
+        securityPrototypeButton.setOnAction(e -> {
+            if (securityPrototypeButton.getText() == "Log Out") {
+                setUsernameButtonText("anonymous");
+                setSecurityButtonText("Log In");
+            } else{
+                SecurityPrototype feature1 = new SecurityPrototype();
+                mainLayout.setCenter(feature1.getFeatureContent());
+            }
+        });
         userAcceptancePrototypeButton.setOnAction(userAcceptancePrototype.getOnAction());
         postDeploymentPrototypeButton.setOnAction(postDeploymentPrototype.getOnAction());
 
@@ -132,9 +146,13 @@ public class EffortLogger extends Application {
         menuButtonBar.setStyle(menuBarStyle);
         // Set the onAction event handler for the feature buttons
         feature1Button.setOnAction(e -> {
-            SecurityPrototype feature1 = new SecurityPrototype();
-            mainLayout.setCenter(feature1.getFeatureContent());
-            //menuBar.setVisible(true);
+            if (feature1Button.getText() == "Log Out") {
+                setUsernameButtonText("anonymous");
+                setFeature1Button("Log In");
+            } else{
+                SecurityPrototype feature1 = new SecurityPrototype();
+                mainLayout.setCenter(feature1.getFeatureContent());
+            }
         });
 
         feature2Button.setOnAction(e -> {

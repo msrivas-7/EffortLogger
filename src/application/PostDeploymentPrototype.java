@@ -6,6 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import application.AlertBox;
+import application.EffortLogger;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -19,14 +22,14 @@ import javafx.scene.Scene;
 
 public class PostDeploymentPrototype {
 
-    private ListView<String> listView;
-    private ListView<String> historyListView;
+    private static ListView<String> listView;
+    private static ListView<String> historyListView;
     private TextField textField;
     private VBox root;
     private String author;
-    private LocalDateTime currentTime = LocalDateTime.now();
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private String formattedTime = currentTime.format(formatter);
+    private static LocalDateTime currentTime = LocalDateTime.now();
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static String formattedTime = currentTime.format(formatter);
 
     public PostDeploymentPrototype() {
         Label activityLabel = new Label("Enter activity:");
@@ -90,7 +93,6 @@ public class PostDeploymentPrototype {
 
         textField.clear();
     }
-
 
     private void editItem() {
         EffortLogger effortLoggerInstance = EffortLogger.getInstance();

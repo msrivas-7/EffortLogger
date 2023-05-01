@@ -2,6 +2,12 @@ package application;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import application.AlertBox;
+import application.EffortLogger;
+import application.SecurityPrototype;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -107,9 +113,9 @@ public class UserAcceptancePrototype {
                 };
             }
         });
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Member>() {
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<application.UserAcceptancePrototype.Member>() {
             @Override
-            public void changed(ObservableValue<? extends Member> observable, Member oldValue, Member newValue) {
+            public void changed(ObservableValue<? extends application.UserAcceptancePrototype.Member> observable, application.UserAcceptancePrototype.Member oldValue, application.UserAcceptancePrototype.Member newValue) {
                 if (newValue != null) {
                     AlertBox.display("Member Info", "First Name: " + newValue.getFirstName() + "\nLast Name: " + newValue.getLastName() + "\nUsername: " + newValue.getUserName() + "\nEmail: " + newValue.getEmail() + "\nAccess Level: " + newValue.getAccessLevel());
                     listView.getSelectionModel().clearSelection();
@@ -146,6 +152,15 @@ public class UserAcceptancePrototype {
         return root;
     }
 
+    private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+    private Matcher matcher;
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+    public boolean validate(final String email) {
+        matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
     private void onboardMember() {
         String firstName = firstNameField.getText().trim();
         String lastName = lastNameField.getText().trim();
@@ -156,12 +171,29 @@ public class UserAcceptancePrototype {
         EffortLogger effortLoggerInstance = EffortLogger.getInstance();
         String encryptedUsername = SecurityPrototype.encrypt(userName, SECRET_KEY);
 
+        if (effortLoggerInstance.getUsernameButtonText() == "anonymous"){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Authorization Error");
+            alert.setHeaderText(null);
+            alert.setContentText("You must be logged in to onboard members");
+            alert.showAndWait();
+        }
         if (!effortLoggerInstance.userAccounts.containsKey(encryptedUsername)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("No User Found");
             alert.setHeaderText(null);
             alert.setContentText("No such user exists!");
             alert.showAndWait();
+            return;
+        }
+        boolean isValid = validate(email);
+        if (!isValid) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid Email");
+            alert.setHeaderText(null);
+            alert.setContentText("Email is not in right format.");
+            alert.showAndWait();
+            return;
         }
         if (userName.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || selectedItem == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -169,6 +201,7 @@ public class UserAcceptancePrototype {
             alert.setHeaderText(null);
             alert.setContentText("Please enter in all required information.");
             alert.showAndWait();
+            return;
         } else {
             String accessLevel = selectedItem.toString();
             application.UserAcceptancePrototype.Member newMember = new application.UserAcceptancePrototype.Member(firstName, lastName, userName, email, accessLevel);
@@ -192,27 +225,19 @@ public class UserAcceptancePrototype {
     }
 
     public void saveToCSV() {
-    	if(listView.getItems().isEmpty()) 
-    	{
-            AlertBox.display("Failed to Export", "No member data found. Please ensure there is data to export.");
-          }
-    	else 
-    	{
-            try (FileWriter writer = new FileWriter("OnBoardedMembers.csv")) {	
-            	writer.write("First Name,Last Name,Email,Access Level\n");
-            	for (application.UserAcceptancePrototype.Member member : listView.getItems()) 
-            	{
-            		writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getUserName() + "," + member.getEmail() + "," + member.getAccessLevel() + "\n");
-            	}
-            	writer.flush();
-            } catch (IOException ex) {
-            	AlertBox.display("Error", "An error occurred while Exporting the Member Data to CSV.");
-
-            	ex.printStackTrace();
+        try (FileWriter writer = new FileWriter("OnBoardedMembers.csv")) {
+            writer.write("First Name,Last Name,Email,Access Level\n");
+            for (application.UserAcceptancePrototype.Member member : listView.getItems()) {
+                writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getUserName() + "," + member.getEmail() + "," + member.getAccessLevel() + "\n");
             }
+            writer.flush();
+        } catch (IOException ex) {
+            AlertBox.display("Error", "An error occurred while Exporting the Member Data to CSV.");
 
-        	AlertBox.display("Success", "OnBoarded Member Data Exported to CSV successfully.");
-    	}
+            ex.printStackTrace();
+        }
+
+        AlertBox.display("Success", "OnBoarded Member Data Exported to CSV successfully.");
     }
 
     private class Member {
