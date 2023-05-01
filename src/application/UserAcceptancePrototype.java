@@ -20,7 +20,7 @@ public class UserAcceptancePrototype {
     private final TextField emailField;
     private final TextField usernameField;
     private final ComboBox<String> accessLevelBox;
-    private final ListView<com.example.postdeployment.UserAcceptancePrototype.Member> listView;
+    private final ListView<application.UserAcceptancePrototype.Member> listView;
     private final VBox listContainer;
     private final BorderPane root;
 
@@ -82,14 +82,14 @@ public class UserAcceptancePrototype {
         memberLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         listView = new ListView<>();
         listView.setStyle("-fx-font-size: 14px;");
-        listView.setCellFactory(new Callback<ListView<com.example.postdeployment.UserAcceptancePrototype.Member>, ListCell<com.example.postdeployment.UserAcceptancePrototype.Member>>() {
+        listView.setCellFactory(new Callback<ListView<application.UserAcceptancePrototype.Member>, ListCell<application.UserAcceptancePrototype.Member>>() {
             @Override
-            public ListCell<com.example.postdeployment.UserAcceptancePrototype.Member> call(ListView<com.example.postdeployment.UserAcceptancePrototype.Member> param) {
-                return new ListCell<com.example.postdeployment.UserAcceptancePrototype.Member>() {
+            public ListCell<application.UserAcceptancePrototype.Member> call(ListView<application.UserAcceptancePrototype.Member> param) {
+                return new ListCell<application.UserAcceptancePrototype.Member>() {
                     private final CheckBox checkBox = new CheckBox();
 
                     @Override
-                    protected void updateItem(com.example.postdeployment.UserAcceptancePrototype.Member item, boolean empty) {
+                    protected void updateItem(application.UserAcceptancePrototype.Member item, boolean empty) {
                         super.updateItem(item, empty);
 
                         if (empty || item == null) {
@@ -107,9 +107,9 @@ public class UserAcceptancePrototype {
                 };
             }
         });
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<com.example.postdeployment.UserAcceptancePrototype.Member>() {
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Member>() {
             @Override
-            public void changed(ObservableValue<? extends com.example.postdeployment.UserAcceptancePrototype.Member> observable, com.example.postdeployment.UserAcceptancePrototype.Member oldValue, com.example.postdeployment.UserAcceptancePrototype.Member newValue) {
+            public void changed(ObservableValue<? extends Member> observable, Member oldValue, Member newValue) {
                 if (newValue != null) {
                     AlertBox.display("Member Info", "First Name: " + newValue.getFirstName() + "\nLast Name: " + newValue.getLastName() + "\nUsername: " + newValue.getUserName() + "\nEmail: " + newValue.getEmail() + "\nAccess Level: " + newValue.getAccessLevel());
                     listView.getSelectionModel().clearSelection();
@@ -120,10 +120,10 @@ public class UserAcceptancePrototype {
         Button confirmDeleteButton = new Button("Delete");
         confirmDeleteButton.setStyle("-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
         confirmDeleteButton.setOnAction(e -> {
-            ObservableList<com.example.postdeployment.UserAcceptancePrototype.Member> members = listView.getItems();
+            ObservableList<application.UserAcceptancePrototype.Member> members = listView.getItems();
 
             // Use removeIf method with a lambda expression to remove checked items
-            members.removeIf(com.example.postdeployment.UserAcceptancePrototype.Member::isDeletable);
+            members.removeIf(application.UserAcceptancePrototype.Member::isDeletable);
 
             // Refresh the ListView
             listView.refresh();
@@ -171,8 +171,8 @@ public class UserAcceptancePrototype {
             alert.showAndWait();
         } else {
             String accessLevel = selectedItem.toString();
-            com.example.postdeployment.UserAcceptancePrototype.Member newMember = new com.example.postdeployment.UserAcceptancePrototype.Member(firstName, lastName, userName, email, accessLevel);
-            for (com.example.postdeployment.UserAcceptancePrototype.Member currentMember : listView.getItems()) {
+            application.UserAcceptancePrototype.Member newMember = new application.UserAcceptancePrototype.Member(firstName, lastName, userName, email, accessLevel);
+            for (application.UserAcceptancePrototype.Member currentMember : listView.getItems()) {
                 if (currentMember.userName.equals(newMember.userName)) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Already Onboarded");
@@ -194,7 +194,7 @@ public class UserAcceptancePrototype {
     public void saveToCSV() {
         try (FileWriter writer = new FileWriter("OnBoardedMembers.csv")) {
             writer.write("First Name,Last Name,Email,Access Level\n");
-            for (com.example.postdeployment.UserAcceptancePrototype.Member member : listView.getItems()) {
+            for (application.UserAcceptancePrototype.Member member : listView.getItems()) {
                 writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getUserName() + "," + member.getEmail() + "," + member.getAccessLevel() + "\n");
             }
             writer.flush();

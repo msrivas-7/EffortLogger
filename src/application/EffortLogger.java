@@ -1,8 +1,8 @@
 package application;
 
-import com.example.postdeployment.PostDeploymentPrototype;
-import com.example.postdeployment.SecurityPrototype;
-import com.example.postdeployment.UserAcceptancePrototype;
+import application.PostDeploymentPrototype;
+import application.SecurityPrototype;
+import application.UserAcceptancePrototype;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -32,9 +32,9 @@ public class EffortLogger extends Application {
     public Button usernameButton = new Button("anonymous");
 
     public final Map<String, String> userAccounts = new HashMap<>();
-    private static com.example.postdeployment.EffortLogger instance;
+    private static application.EffortLogger instance;
 
-    public static com.example.postdeployment.EffortLogger getInstance() {
+    public static application.EffortLogger getInstance() {
         return instance;
     }
 
