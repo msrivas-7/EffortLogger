@@ -192,19 +192,27 @@ public class UserAcceptancePrototype {
     }
 
     public void saveToCSV() {
-        try (FileWriter writer = new FileWriter("OnBoardedMembers.csv")) {
-            writer.write("First Name,Last Name,Email,Access Level\n");
-            for (application.UserAcceptancePrototype.Member member : listView.getItems()) {
-                writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getUserName() + "," + member.getEmail() + "," + member.getAccessLevel() + "\n");
+    	if(listView.getItems().isEmpty()) 
+    	{
+            AlertBox.display("Failed to Export", "No member data found. Please ensure there is data to export.");
+          }
+    	else 
+    	{
+            try (FileWriter writer = new FileWriter("OnBoardedMembers.csv")) {	
+            	writer.write("First Name,Last Name,Email,Access Level\n");
+            	for (application.UserAcceptancePrototype.Member member : listView.getItems()) 
+            	{
+            		writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getUserName() + "," + member.getEmail() + "," + member.getAccessLevel() + "\n");
+            	}
+            	writer.flush();
+            } catch (IOException ex) {
+            	AlertBox.display("Error", "An error occurred while Exporting the Member Data to CSV.");
+
+            	ex.printStackTrace();
             }
-            writer.flush();
-        } catch (IOException ex) {
-            AlertBox.display("Error", "An error occurred while Exporting the Member Data to CSV.");
 
-            ex.printStackTrace();
-        }
-
-        AlertBox.display("Success", "OnBoarded Member Data Exported to CSV successfully.");
+        	AlertBox.display("Success", "OnBoarded Member Data Exported to CSV successfully.");
+    	}
     }
 
     private class Member {
