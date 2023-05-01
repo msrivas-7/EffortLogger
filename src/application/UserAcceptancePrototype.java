@@ -226,7 +226,7 @@ public class UserAcceptancePrototype {
 
     public void saveToCSV() {
         try (FileWriter writer = new FileWriter("OnBoardedMembers.csv")) {
-            writer.write("First Name,Last Name,Email,Access Level\n");
+            writer.write("First Name,Last Name,UserName,Email,Access Level\n");
             for (application.UserAcceptancePrototype.Member member : listView.getItems()) {
                 writer.write(member.getFirstName() + "," + member.getLastName() + "," + member.getUserName() + "," + member.getEmail() + "," + member.getAccessLevel() + "\n");
             }
