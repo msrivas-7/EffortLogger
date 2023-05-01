@@ -36,7 +36,7 @@ public class SecurityPrototype {
 
         String textFieldStyle = "-fx-pref-width: 300; -fx-font-size: 14;"; // Set preferred width and font size for text fields
         String labelStyle = "-fx-alignment: CENTER_LEFT; -fx-font-size: 18;"; // Set alignment and font size for labels
-        String buttonStyle = "-fx-font-size: 14; -fx-base: #3498db; -fx-text-fill: white; -fx-pref-width: 150;"; // Set button style
+        String buttonStyle = "-fx-font-size: 14; -fx-base: #1e90ff; -fx-text-fill: white; -fx-pref-width: 150;"; // Set button style
 
         Label usernameLabel = new Label("Username");
         usernameLabel.setStyle(labelStyle);
