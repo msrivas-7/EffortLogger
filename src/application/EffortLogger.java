@@ -108,6 +108,7 @@ public class EffortLogger extends Application {
             if (securityPrototypeButton.getText() == "Log Out") {
                 setUsernameButtonText("anonymous");
                 setSecurityButtonText("Log In");
+                setFeature1Button("Log In");
             } else{
                 SecurityPrototype feature1 = new SecurityPrototype();
                 mainLayout.setCenter(feature1.getFeatureContent());
@@ -149,6 +150,7 @@ public class EffortLogger extends Application {
             if (feature1Button.getText() == "Log Out") {
                 setUsernameButtonText("anonymous");
                 setFeature1Button("Log In");
+                setSecurityButtonText("Log In");
             } else{
                 SecurityPrototype feature1 = new SecurityPrototype();
                 mainLayout.setCenter(feature1.getFeatureContent());
